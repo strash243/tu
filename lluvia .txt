@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Para mi Amor</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    overflow: hidden;
+    font-family: 'Great Vibes', cursive;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+
+  #rain-container {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 10;
+  }
+
+  .drop {
+    position: absolute;
+    top: -2em;
+    font-size: 1.5em;
+    opacity: 0.8;
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    user-select: none;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh);
+      opacity: 0;
+    }
+  }
+
+  #message {
+    position: relative;
+    z-index: 20;
+    text-align: center;
+    max-width: 90%;
+  }
+
+  #message h1 {
+    font-size: 3.5em;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+  }
+
+  #message p {
+    font-size: 1.8em;
+    margin-top: 10px;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+  }
+
+  audio {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<div id="rain-container"></div>
+
+<div id="message">
+  <h1>Te amo</h1>
+  <p>Siempre eres mi inspiración y mi amor infinito 💖</p>
+</div>
+
+<audio id="music" src="https://cdn.pixabay.com/download/audio/2022/02/22/audio_d4f099cd39.mp3?filename=amour-plastique-123136.mp3" autoplay loop></audio>
+
+<script>
+  const rainContainer = document.getElementById('rain-container');
+  const dropsCount = 60;
+
+  function createDrop() {
+    const drop = document.createElement('div');
+    drop.classList.add('drop');
+    drop.textContent = 'Te amo';
+
+    drop.style.left = Math.random() * 100 + 'vw';
+    drop.style.animationDuration = (3 + Math.random() * 4) + 's';
+    drop.style.fontSize = (14 + Math.random() * 16) + 'px';
+    drop.style.opacity = (0.4 + Math.random() * 0.6);
+    drop.style.animationDelay = (Math.random() * 5) + 's';
+
+    rainContainer.appendChild(drop);
+
+    // Eliminar la gota después de caer para no saturar el DOM
+    setTimeout(() => {
+      drop.remove();
+      createDrop();
+    }, (parseFloat(drop.style.animationDuration) + parseFloat(drop.style.animationDelay)) * 1000);
+  }
+
+  // Crear varias gotas al inicio
+  for(let i = 0; i < dropsCount; i++) {
+    createDrop();
+  }
+
+  // Controlar reproducción de música (opcional para móvil)
+  const music = document.getElementById('music');
+  document.body.addEventListener('click', () => {
+    if (music.paused) music.play();
+  });
+</script>
+
+</body>
+</html>
